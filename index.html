@@ -3,18 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIR-MVIT</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    <title>College Portal Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-light: #F1F7F9;
-            --accent-blue: #749DCB;
-            --primary-blue: #0A6BC9;
-            --dark-blue: #064089;
-            --deep-blue: #07326A;
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Your 5 colors from previous message */
+            --bg-light: #F1F7F9;      /* Light blue-gray background */
+            --accent-blue: #749DCB;   /* Soft medium blue */
+            --primary-blue: #0A6BC9;  /* Bright blue */
+            --dark-blue: #064089;     /* Dark blue */
+            --deep-blue: #07326A;     /* Deep navy blue */
+            
+            /* Additional colors used in the design */
+            --white: #FFFFFF;         /* White for cards/text */
+            --glass-bg: rgba(255, 255, 255, 0.3);  /* Glass effect */
+            --glass-border: rgba(116, 157, 203, 0.2); /* Glass borders */
+            --text-dark: #1e293b;     /* Dark text */
+            --text-medium: #475569;   /* Medium text */
+            --shadow-blue: 0 15px 35px rgba(10, 107, 201, 0.15);
+            --shadow-blue-lg: 0 25px 50px rgba(10, 107, 201, 0.25);
         }
 
         * {
@@ -26,503 +34,975 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #F1F7F9 0%, #E8F2F7 100%);
-            color: var(--deep-blue);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-        }
-
-        /* Single Page Container */
-        .page-container {
-            width: 100%;
-            max-width: 1200px;
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            33% { transform: translateY(-8px) rotate(3deg); }
-            66% { transform: translateY(4px) rotate(-3deg); }
-        }
-
-        .logo i {
-            font-size: 2.2rem;
-            color: white;
-        }
-
-        .title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--deep-blue);
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            color: var(--accent-blue);
-            font-size: 0.9rem;
-        }
-
-        /* Navigation */
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            list-style: none;
-        }
-
-        .nav-link {
-            color: var(--dark-blue);
-            text-decoration: none;
-            padding: 8px 20px;
-            border-radius: 25px;
-            background: rgba(116, 157, 203, 0.1);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            border: 1px solid transparent;
-        }
-
-        .nav-link:hover {
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(10, 107, 201, 0.2);
-            border-color: var(--primary-blue);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-        }
-
-        /* Grid Container - Small Boxes */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        /* Cards - Smaller Size */
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 30px rgba(116, 157, 203, 0.15);
-            transition: var(--transition);
-            cursor: pointer;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 2px solid transparent;
             position: relative;
+        }
+
+        /* Animated background elements */
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
             overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(116, 157, 203, 0.25);
-            border-color: var(--primary-blue);
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(116, 157, 203, 0.1) 0%, transparent 70%);
+            animation: float 20s infinite linear;
         }
 
-        .card::before {
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -150px;
+            left: -150px;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: -100px;
+            right: -100px;
+            background: radial-gradient(circle, rgba(10, 107, 201, 0.1) 0%, transparent 70%);
+            animation-delay: -5s;
+            animation-duration: 25s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, 50px) rotate(120deg); }
+            66% { transform: translate(-20px, -30px) rotate(240deg); }
+        }
+
+        /* Main login container */
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-blue);
+            position: relative;
+            overflow: hidden;
+            animation: containerAppear 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes containerAppear {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .login-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 5px;
             background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
-            transform: scaleX(0);
-            transition: transform 0.6s ease;
-            transform-origin: left;
+            animation: borderSlide 3s infinite linear;
         }
 
-        .card:hover::before {
-            transform: scaleX(1);
+        @keyframes borderSlide {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
         }
 
-        /* Icon with Rotation */
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, var(--bg-light), white);
+        /* Module title */
+        .module-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .title-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--deep-blue), var(--primary-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            animation: titleGlow 3s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px rgba(10, 107, 201, 0.2); }
+            100% { text-shadow: 0 0 40px rgba(10, 107, 201, 0.4); }
+        }
+
+        .title-underline {
+            height: 3px;
+            width: 100px;
+            background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+            margin: 0 auto;
+            border-radius: 2px;
+            animation: underlinePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes underlinePulse {
+            0%, 100% { width: 100px; opacity: 1; }
+            50% { width: 150px; opacity: 0.7; }
+        }
+
+        /* Role selection */
+        .role-section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-label {
+            color: var(--dark-blue);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .role-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--glass-border);
+            position: relative;
+            animation: cardFloat 6s ease-in-out infinite;
+            animation-delay: calc(var(--i) * 0.5s);
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-blue);
+            animation-play-state: paused;
+        }
+
+        .role-card.selected {
+            transform: translateY(-8px);
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, rgba(10, 107, 201, 0.05), rgba(116, 157, 203, 0.1));
+            box-shadow: 0 15px 35px rgba(10, 107, 201, 0.2);
+        }
+
+        .role-card.blurred {
+            filter: blur(2px);
+            opacity: 0.6;
+            transform: scale(0.95);
+        }
+
+        .role-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            transition: var(--transition);
-            border: 2px solid transparent;
+            font-size: 1.5rem;
+            color: var(--white);
+            transition: all 0.4s ease;
         }
 
-        .card-icon::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
+        .role-card:hover .role-icon {
+            transform: rotateY(180deg);
+        }
+
+        .role-card.selected .role-icon {
             background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
+            box-shadow: 0 8px 20px rgba(10, 107, 201, 0.3);
         }
 
-        .card:hover .card-icon {
-            border-color: var(--primary-blue);
-        }
-
-        .card:hover .card-icon::before {
-            opacity: 1;
-        }
-
-        .card-icon i {
-            font-size: 1.8rem;
-            color: var(--primary-blue);
-            transition: var(--transition);
-        }
-
-        .card:hover .card-icon i {
-            color: white;
-            animation: iconRotate 0.6s ease forwards;
-        }
-
-        @keyframes iconRotate {
-            0% { transform: rotate(0) scale(1); }
-            50% { transform: rotate(180deg) scale(1.2); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
-
-        /* Card Content - Minimal Text */
-        .card-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card h3 {
-            font-size: 1.2rem;
+        .role-name {
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--deep-blue);
-            margin-bottom: 10px;
         }
 
-        .card p {
+        .role-desc {
+            font-size: 0.8rem;
             color: var(--accent-blue);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
         }
 
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 25px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: var(--transition);
+        .role-card:hover .role-desc {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Login form */
+        .login-form {
+            animation: formSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s both;
+        }
+
+        @keyframes formSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 20px 8px;
+            background: var(--white);
+            border: 2px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(116, 157, 203, 0.1);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(10, 107, 201, 0.1), 0 8px 25px rgba(10, 107, 201, 0.2);
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-blue);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .input-field:focus + .floating-label,
+        .input-field:not(:placeholder-shown) + .floating-label {
+            top: 10px;
+            font-size: 0.8rem;
+            color: var(--primary-blue);
+        }
+
+        /* Password field */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 5px;
+        }
+
+        .toggle-password:hover {
+            color: var(--primary-blue);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .strength-bar {
+            height: 3px;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+            border-radius: 2px;
+            margin-top: 8px;
+            transition: width 0.5s ease;
+        }
+
+        /* Department selection - Grid with new courses */
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .dept-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--glass-border);
             position: relative;
             overflow: hidden;
         }
 
-        .card-link::before {
+        .dept-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-            opacity: 0;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(10, 107, 201, 0.1), transparent);
+            transition: left 0.6s ease;
         }
 
-        .card-link:hover::before {
-            animation: shine 0.8s ease;
+        .dept-card:hover::before {
+            left: 100%;
         }
 
-        @keyframes shine {
-            0% { left: -50%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { left: 150%; opacity: 0; }
+        .dept-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 25px rgba(116, 157, 203, 0.2);
         }
 
-        .card-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(10, 107, 201, 0.3);
-            gap: 12px;
+        .dept-card.selected {
+            transform: scale(1.05);
+            border-color: var(--primary-blue);
+            background: linear-gradient(135deg, rgba(10, 107, 201, 0.05), rgba(116, 157, 203, 0.1));
+            box-shadow: 0 15px 30px rgba(10, 107, 201, 0.2);
         }
 
-        .card-link i {
-            transition: transform 0.3s ease;
+        .dept-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 10px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--white);
         }
 
-        .card-link:hover i {
-            transform: translateX(5px);
+        .dept-card.selected .dept-icon {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            box-shadow: 0 6px 15px rgba(10, 107, 201, 0.3);
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(116, 157, 203, 0.2);
-        }
-
-        .footer p {
-            color: var(--accent-blue);
+        .dept-name {
             font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--deep-blue);
         }
 
-        .team-name {
-            color: var(--primary-blue);
+        .course-type {
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        /* Academic year selector */
+        .year-selector {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 15px 10px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .year-selector::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .year-selector::-webkit-scrollbar-track {
+            background: rgba(116, 157, 203, 0.1);
+            border-radius: 2px;
+        }
+
+        .year-selector::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 2px;
+        }
+
+        .year-chip {
+            scroll-snap-align: center;
+            flex: 0 0 auto;
+            padding: 12px 25px;
+            background: var(--white);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--glass-border);
+            font-weight: 500;
+            color: var(--dark-blue);
+        }
+
+        .year-chip:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 8px 20px rgba(116, 157, 203, 0.2);
+        }
+
+        .year-chip.selected {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(10, 107, 201, 0.3);
+        }
+
+        /* Progress steps */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 35px 0 25px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .progress-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
             font-weight: 600;
+            color: var(--accent-blue);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            border-color: var(--primary-blue);
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(10, 107, 201, 0.3);
+        }
+
+        .progress-step.completed {
+            background: linear-gradient(135deg, var(--accent-blue), var(--primary-blue));
+            border-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .step-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            white-space: nowrap;
+        }
+
+        /* Login button */
+        .login-btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .login-btn {
+            padding: 16px 45px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px rgba(10, 107, 201, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(10, 107, 201, 0.4);
+            background: linear-gradient(135deg, var(--dark-blue), var(--deep-blue));
+        }
+
+        .login-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .login-btn:active::after {
+            width: 300px;
+            height: 300px;
         }
 
         /* Responsive */
-        @media (max-width: 992px) {
-            .grid-container {
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .role-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .dept-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
+            
+            .title-text {
+                font-size: 2rem;
             }
             
-            .nav-links {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .logo {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .logo i {
-                font-size: 1.8rem;
-            }
-            
-            .title {
-                font-size: 1.5rem;
+            .progress-steps {
+                gap: 30px;
             }
         }
 
         @media (max-width: 480px) {
-            .page-container {
-                padding: 10px;
+            .dept-grid {
+                grid-template-columns: 1fr;
             }
             
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
+            .year-selector {
+                gap: 8px;
             }
             
-            .nav-link {
-                width: 200px;
-                text-align: center;
+            .year-chip {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
             
-            .card {
-                padding: 25px 20px;
+            .title-text {
+                font-size: 1.8rem;
             }
             
-            .card-icon {
-                width: 60px;
-                height: 60px;
+            .role-card {
+                padding: 20px 15px;
             }
             
-            .card-icon i {
-                font-size: 1.5rem;
+            .role-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .login-btn {
+                padding: 14px 35px;
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="page-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                
-                 <img src="logo.png">
-            </div>
-            <h1 class="title">SIR M VISVESVARAYA INSTITUTE OF TECHNOLOGY</h1>
-            <p class="subtitle">University Management System</p>
-            
-            <!-- Navigation -->
-            <ul class="nav-links">
-                <li><a href="#" class="nav-link active">Home</a></li>
-                <li><a href="#" class="nav-link">Dashboard</a></li>
-                <li><a href="#" class="nav-link">About</a></li>
-                <li><a href="#" class="nav-link">Contact</a></li>
-            </ul>
-        </header>
+    <!-- Animated background -->
+    <div class="bg-elements">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
 
-        <!-- Three Small Boxes Grid -->
-        <div class="grid-container">
-            <!-- Room Allotment -->
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="card-content">
-                    <h3>Room Allotment</h3>
-                    <p>Smart room allocation with automated scheduling</p>
-                    <a href="#" class="card-link">
-                        Enter
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Invigilation -->
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="card-content">
-                    <h3>Invigilation</h3>
-                    <p>Staff scheduling and management system</p>
-                    <a href="#" class="card-link">
-                        Enter
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- QDPS -->
-            <div class="card">
-                <div class="card-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="card-content">
-                    <h3>QDPS</h3>
-                    <p>Secure paper distribution system</p>
-                    <a href="#" class="card-link">
-                        Enter
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
+    <!-- Main login container -->
+    <div class="login-container">
+        <!-- Module title -->
+        <div class="module-title">
+            <h1 class="title-text">Room Allotment</h1>
+            <div class="title-underline"></div>
         </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>By <span class="team-name">Dr. Banuprakash & Team</span></p>
-        </footer>
+        <!-- Role selection -->
+        <section class="role-section">
+            <span class="section-label">Select Access Level</span>
+            <div class="role-grid">
+                <div class="role-card" data-role="staff" style="--i: 0">
+                    <div class="role-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="role-name">Staff</div>
+                    <div class="role-desc">Exam invigilation duties</div>
+                </div>
+                <div class="role-card" data-role="coordinator" style="--i: 1">
+                    <div class="role-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="role-name">Coordinator</div>
+                    <div class="role-desc">Department coordination</div>
+                </div>
+                <div class="role-card selected" data-role="admin" style="--i: 2">
+                    <div class="role-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="role-name">Admin</div>
+                    <div class="role-desc">Full system access</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login form -->
+        <form class="login-form">
+            <!-- Email -->
+            <div class="form-group">
+                <span class="section-label">University Credentials</span>
+                <div class="input-container">
+                    <input type="email" class="input-field" id="email" placeholder=" " required>
+                    <label for="email" class="floating-label">University Email ID</label>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <div class="input-container">
+                    <div class="password-wrapper">
+                        <input type="password" class="input-field" id="password" placeholder=" " required>
+                        <label for="password" class="floating-label">Password</label>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+            </div>
+
+            <!-- Department selection with new courses -->
+            <div class="form-group">
+                <span class="section-label">Select Department</span>
+                <div class="dept-grid">
+                    <!-- Engineering Departments -->
+                    <div class="dept-card" data-dept="cse">
+                        <div class="dept-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="dept-name">CSE</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card selected" data-dept="ece">
+                        <div class="dept-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="dept-name">ECE</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="mech">
+                        <div class="dept-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="dept-name">MECH</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="civil">
+                        <div class="dept-icon">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <div class="dept-name">CIVIL</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="eee">
+                        <div class="dept-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="dept-name">EEE</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="aiml">
+                        <div class="dept-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="dept-name">AI & ML</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="ds">
+                        <div class="dept-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="dept-name">Data Science</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="cyber">
+                        <div class="dept-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="dept-name">Cyber Security</div>
+                        <div class="course-type">Engineering</div>
+                    </div>
+                    <div class="dept-card" data-dept="mba">
+                        <div class="dept-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="dept-name">MBA</div>
+                        <div class="course-type">Management</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Year -->
+            <div class="form-group">
+                <span class="section-label">Academic Year</span>
+                <div class="year-selector">
+                    <div class="year-chip">2020-2021</div>
+                    <div class="year-chip">2021-2022</div>
+                    <div class="year-chip">2022-2023</div>
+                    <div class="year-chip selected">2023-2024</div>
+                    <div class="year-chip">2024-2025</div>
+                    <div class="year-chip">2025-2026</div>
+                </div>
+            </div>
+
+            <!-- Progress steps -->
+            <div class="progress-steps">
+                <div class="progress-step completed">
+                    1
+                    <div class="step-label">Role</div>
+                </div>
+                <div class="progress-step active">
+                    2
+                    <div class="step-label">Details</div>
+                </div>
+                <div class="progress-step">
+                    3
+                    <div class="step-label">Verify</div>
+                </div>
+            </div>
+
+            <!-- Login button -->
+            <div class="login-btn-container">
+                <button type="submit" class="login-btn">
+                    <span>Access Portal</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </form>
     </div>
 
     <script>
-        // Navigation active state
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+        // Role selection
+        const roleCards = document.querySelectorAll('.role-card');
+        let selectedRole = 'admin';
+
+        roleCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const role = this.dataset.role;
+                selectedRole = role;
+                
+                // Remove selection from all cards
+                roleCards.forEach(c => {
+                    c.classList.remove('selected');
+                    c.classList.add('blurred');
+                });
+                
+                // Add selection to clicked card
+                this.classList.add('selected');
+                this.classList.remove('blurred');
+                
+                // Show role description
+                const desc = this.querySelector('.role-desc');
+                desc.style.opacity = '1';
+                desc.style.transform = 'translateY(0)';
+                
+                // Update progress
+                updateProgress(1);
             });
         });
 
-        // Card hover 3D effect
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateY = ((x - centerX) / centerX) * 2;
-                const rotateX = ((centerY - y) / centerY) * 2;
-                
-                card.style.transform = `translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
+        // Password toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.getElementById('strengthBar');
+
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+        });
+
+        // Password strength indicator
+        passwordInput.addEventListener('input', function() {
+            const value = this.value;
+            let strength = 0;
             
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(-10px) scale(1.02) rotateX(0) rotateY(0)';
-            });
+            if (value.length > 0) strength += 20;
+            if (value.length >= 8) strength += 20;
+            if (/[A-Z]/.test(value)) strength += 20;
+            if (/[0-9]/.test(value)) strength += 20;
+            if (/[^A-Za-z0-9]/.test(value)) strength += 20;
             
-            // Add click effect
-            card.addEventListener('click', () => {
-                card.style.transform = 'translateY(-5px) scale(0.98)';
-                setTimeout(() => {
-                    card.style.transform = 'translateY(-10px) scale(1.02)';
-                }, 150);
+            strengthBar.style.width = `${strength}%`;
+        });
+
+        // Department selection with AI/ML and Data Science
+        const deptCards = document.querySelectorAll('.dept-card');
+        let selectedDept = 'ece';
+
+        deptCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const dept = this.dataset.dept;
+                selectedDept = dept;
+                
+                // Remove selection from all cards
+                deptCards.forEach(c => c.classList.remove('selected'));
+                
+                // Add selection to clicked card
+                this.classList.add('selected');
             });
         });
 
-        // Logo bounce on hover
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('mouseenter', () => {
-            logo.style.animation = 'none';
+        // Academic year selection
+        const yearChips = document.querySelectorAll('.year-chip');
+        let selectedYear = '2023-2024';
+
+        yearChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                const year = this.textContent;
+                selectedYear = year;
+                
+                // Remove selection from all chips
+                yearChips.forEach(c => c.classList.remove('selected'));
+                
+                // Add selection to clicked chip
+                this.classList.add('selected');
+                
+                // Scroll to center
+                this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+        });
+
+        // Progress update
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress-step');
+            
+            steps.forEach((s, index) => {
+                s.classList.remove('active', 'completed');
+                
+                if (index < step) {
+                    s.classList.add('completed');
+                } else if (index === step) {
+                    s.classList.add('active');
+                }
+            });
+        }
+
+        // Form submission
+        const form = document.querySelector('.login-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const btn = this.querySelector('.login-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            btn.disabled = true;
+            
+            // Simulate API call
             setTimeout(() => {
-                logo.style.animation = 'logoFloat 3s ease-in-out infinite';
-            }, 10);
+                updateProgress(2);
+                
+                // Show success and redirect
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Access Granted!';
+                    btn.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--primary-blue))';
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        alert(`✅ Login Successful!\n\nAccess Details:\n• Role: ${selectedRole.toUpperCase()}\n• Department: ${selectedDept.toUpperCase()}\n• Academic Year: ${selectedYear}\n\nRedirecting to portal...`);
+                        // window.location.href = 'dashboard.html';
+                    }, 500);
+                }, 1000);
+            }, 1500);
         });
 
-        // Page load animation
-        document.addEventListener('DOMContentLoaded', () => {
-            // Fade in
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.6s ease';
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress(1);
             
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
+            // Set initial blurred state for non-selected role cards
+            roleCards.forEach(card => {
+                if (!card.classList.contains('selected')) {
+                    card.classList.add('blurred');
+                }
+            });
             
-            // Cards entrance
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 150 + 200);
+            // Add typing animation to email field
+            const emailField = document.getElementById('email');
+            emailField.addEventListener('focus', function() {
+                this.style.animation = 'typingGlow 1.5s ease-in-out';
             });
         });
+
+        // Add typing glow animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes typingGlow {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(10, 107, 201, 0.2); }
+                50% { box-shadow: 0 0 20px 5px rgba(10, 107, 201, 0.3); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
