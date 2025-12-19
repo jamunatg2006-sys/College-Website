@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Exam Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #F1F7F9;
+            --accent-blue: #749DCB;
+            --primary-blue: #0A6BC9;
+            --dark-blue: #064089;
+            --deep-blue: #07326A;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F1F7F9 0%, #E8F2F7 100%);
+            color: var(--deep-blue);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Single Page Container */
+        .page-container {
+            width: 100%;
+            max-width: 1200px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            33% { transform: translateY(-8px) rotate(3deg); }
+            66% { transform: translateY(4px) rotate(-3deg); }
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            color: white;
+        }
+
+        .title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--deep-blue);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--dark-blue);
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            background: rgba(116, 157, 203, 0.1);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(10, 107, 201, 0.2);
+            border-color: var(--primary-blue);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+        }
+
+        /* Grid Container - Small Boxes */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Cards - Smaller Size */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(116, 157, 203, 0.15);
+            transition: var(--transition);
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(116, 157, 203, 0.25);
+            border-color: var(--primary-blue);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+            transform-origin: left;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Icon with Rotation */
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--bg-light), white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .card-icon::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .card:hover .card-icon {
+            border-color: var(--primary-blue);
+        }
+
+        .card:hover .card-icon::before {
+            opacity: 1;
+        }
+
+        .card-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            transition: var(--transition);
+        }
+
+        .card:hover .card-icon i {
+            color: white;
+            animation: iconRotate 0.6s ease forwards;
+        }
+
+        @keyframes iconRotate {
+            0% { transform: rotate(0) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Card Content - Minimal Text */
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--deep-blue);
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .card-link:hover::before {
+            animation: shine 0.8s ease;
+        }
+
+        @keyframes shine {
+            0% { left: -50%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { left: 150%; opacity: 0; }
+        }
+
+        .card-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(10, 107, 201, 0.3);
+            gap: 12px;
+        }
+
+        .card-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .card-link:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(116, 157, 203, 0.2);
+        }
+
+        .footer p {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+        }
+
+        .team-name {
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo i {
+                font-size: 1.8rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-container {
+                padding: 10px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-link {
+                width: 200px;
+                text-align: center;
+            }
+            
+            .card {
+                padding: 25px 20px;
+            }
+            
+            .card-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .card-icon i {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+            </div>
+            <h1 class="title">Exam Portal</h1>
+            <p class="subtitle">University Management System</p>
+            
+            <!-- Navigation -->
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active">Home</a></li>
+                <li><a href="#" class="nav-link">Dashboard</a></li>
+                <li><a href="#" class="nav-link">About</a></li>
+                <li><a href="#" class="nav-link">Contact</a></li>
+            </ul>
+        </header>
+
+        <!-- Three Small Boxes Grid -->
+        <div class="grid-container">
+            <!-- Room Allotment -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Room Allotment</h3>
+                    <p>Smart room allocation with automated scheduling</p>
+                    <a href="#" class="card-link">
+                        Enter
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Invigilation -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Invigilation</h3>
+                    <p>Staff scheduling and management system</p>
+                    <a href="#" class="card-link">
+                        Enter
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- QDPS -->
+            <div class="card">
+                <div class="card-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>QDPS</h3>
+                    <p>Secure paper distribution system</p>
+                    <a href="#" class="card-link">
+                        Enter
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>By <span class="team-name">Dr. Banuprakash & Team</span></p>
+        </footer>
+    </div>
+
+    <script>
+        // Navigation active state
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Card hover 3D effect
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateY = ((x - centerX) / centerX) * 2;
+                const rotateX = ((centerY - y) / centerY) * 2;
+                
+                card.style.transform = `translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02) rotateX(0) rotateY(0)';
+            });
+            
+            // Add click effect
+            card.addEventListener('click', () => {
+                card.style.transform = 'translateY(-5px) scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                }, 150);
+            });
+        });
+
+        // Logo bounce on hover
+        const logo = document.querySelector('.logo');
+        logo.addEventListener('mouseenter', () => {
+            logo.style.animation = 'none';
+            setTimeout(() => {
+                logo.style.animation = 'logoFloat 3s ease-in-out infinite';
+            }, 10);
+        });
+
+        // Page load animation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.6s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // Cards entrance
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150 + 200);
+            });
+        });
+    </script>
+</body>
+</html>
