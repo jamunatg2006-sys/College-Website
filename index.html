@@ -8,6 +8,147 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Intro Screen Styles */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(241,247,249,0.6) 0%, rgba(232,242,247,0.6) 100%);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* `fixed` can cause collapse on some mobile/embedded browsers — use `scroll` instead */
+            background-attachment: scroll;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            /* show intro for 1.5s then fade for 0.5s => total 2s */
+            animation: fadeOut 0.5s ease 1.5s forwards;
+        }
+
+        .intro-content {
+            background: rgba(191, 222, 255, 0.95);
+            padding: 60px 80px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(10, 107, 201, 0.2);
+            border: 2px solid rgba(116, 157, 203, 0.3);
+            backdrop-filter: blur(10px);
+            /* ensure intro content sits above the intro background */
+            position: relative;
+            z-index: 10000;
+            animation: introScale 1s ease;
+        }
+
+        .intro-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            33% { transform: translateY(-10px) rotate(3deg); }
+            66% { transform: translateY(5px) rotate(-3deg); }
+        }
+
+        .intro-logo i {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .intro-title {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            animation: textSlideUp 0.8s ease 0.2s both;
+        }
+
+        .intro-subtitle {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            font-weight: 500;
+            opacity: 0;
+            animation: textSlideUp 0.8s ease 0.4s both;
+            margin-bottom: 40px;
+        }
+
+        .intro-progress {
+            width: 400px;
+            height: 8px;
+            background: rgba(116, 157, 203, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 0.6s both;
+        }
+
+        .intro-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-blue), var(--dark-blue));
+            border-radius: 4px;
+            /* progress fills while intro is visible (1.5s) */
+            animation: progress 1.5s ease-in-out forwards;
+        }
+
+        @keyframes introScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes textSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                visibility: visible;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* MAIN PAGE STYLES - YOUR EXACT ORIGINAL STYLES */
         :root {
             --bg-light: #F1F7F9;
             --accent-blue: #749DCB;
@@ -36,21 +177,34 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            /* keep body visible so intro-screen can appear (child opacity inherits) */
+            opacity: 1;
         }
 
-        /* Single Page Container */
+        /* .page-container will animate in after the intro finishes (start at 2s) */
         .page-container {
             width: 100%;
             max-width: 1200px;
-            animation: fadeIn 1s ease;
+            opacity: 0;
+            animation: slideIn 0.8s ease 2s both;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .header {
             text-align: center;
             margin-bottom: 40px;
@@ -66,12 +220,6 @@
             justify-content: center;
             margin: 0 auto 15px;
             animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            33% { transform: translateY(-8px) rotate(3deg); }
-            66% { transform: translateY(4px) rotate(-3deg); }
         }
 
         .logo i {
@@ -91,7 +239,6 @@
             font-size: 0.9rem;
         }
 
-        /* Navigation */
         .nav-links {
             display: flex;
             justify-content: center;
@@ -125,7 +272,6 @@
             color: white;
         }
 
-        /* Grid Container - Small Boxes */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -133,9 +279,8 @@
             margin-top: 30px;
         }
 
-        /* Cards - Smaller Size */
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(191, 222, 255, 0.894);
             border-radius: 20px;
             padding: 30px 25px;
             box-shadow: 0 10px 30px rgba(116, 157, 203, 0.15);
@@ -149,6 +294,20 @@
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardSlideUp 0.5s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 3.5s; }
+        .card:nth-child(2) { animation-delay: 3.6s; }
+        .card:nth-child(3) { animation-delay: 3.7s; }
+
+        @keyframes cardSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .card:hover {
@@ -174,7 +333,6 @@
             transform: scaleX(1);
         }
 
-        /* Icon with Rotation */
         .card-icon {
             width: 70px;
             height: 70px;
@@ -225,7 +383,6 @@
             100% { transform: rotate(360deg) scale(1); }
         }
 
-        /* Card Content - Minimal Text */
         .card-content {
             flex: 1;
             display: flex;
@@ -300,12 +457,13 @@
             transform: translateX(5px);
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             margin-top: 50px;
             padding-top: 20px;
             border-top: 1px solid rgba(116, 157, 203, 0.2);
+            opacity: 0;
+            animation: fadeIn 0.5s ease 3.8s forwards;
         }
 
         .footer p {
@@ -318,10 +476,21 @@
             font-weight: 600;
         }
 
-        /* Responsive */
         @media (max-width: 992px) {
             .grid-container {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .intro-content {
+                padding: 50px 60px;
+            }
+            
+            .intro-title {
+                font-size: 2.8rem;
+            }
+            
+            .intro-subtitle {
+                font-size: 1.6rem;
             }
         }
 
@@ -349,6 +518,33 @@
             
             .title {
                 font-size: 1.5rem;
+            }
+            
+            /* Intro responsive */
+            .intro-content {
+                padding: 40px 50px;
+                margin: 20px;
+            }
+            
+            .intro-title {
+                font-size: 2.2rem;
+            }
+            
+            .intro-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .intro-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .intro-logo i {
+                font-size: 2.5rem;
+            }
+            
+            .intro-progress {
+                width: 300px;
             }
         }
 
@@ -379,16 +575,56 @@
             .card-icon i {
                 font-size: 1.5rem;
             }
+            
+            /* Intro responsive */
+            .intro-content {
+                padding: 30px;
+            }
+            
+            .intro-title {
+                font-size: 1.8rem;
+            }
+            
+            .intro-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .intro-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .intro-logo i {
+                font-size: 2rem;
+            }
+            
+            .intro-progress {
+                width: 250px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Intro Screen (Shows for 3 seconds) -->
+    <div class="intro-screen">
+        <div class="intro-content">
+            <div class="intro-logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1 class="intro-title">SIR MVIT</h1>
+            <p class="intro-subtitle">College Management System</p>
+            <div class="intro-progress">
+                <div class="intro-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Your original page - Shows after intro) -->
     <div class="page-container">
         <!-- Header -->
         <header class="header">
             <div class="logo">
-                
-                 <img src="logo.png">
+                <img src="logo.png" alt="Logo">
             </div>
             <h1 class="title">SIR M VISVESVARAYA INSTITUTE OF TECHNOLOGY</h1>
             <p class="subtitle">University Management System</p>
@@ -412,7 +648,7 @@
                 <div class="card-content">
                     <h3>Room Allotment</h3>
                     <p>Smart room allocation with automated scheduling</p>
-                    <a href="#" class="card-link">
+                    <a href="room-login.html" class="card-link">
                         Enter
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -427,7 +663,7 @@
                 <div class="card-content">
                     <h3>Invigilation</h3>
                     <p>Staff scheduling and management system</p>
-                    <a href="#" class="card-link">
+                    <a href="invigilation-login.html" class="card-link">
                         Enter
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -440,9 +676,9 @@
                     <i class="fas fa-file-alt"></i>
                 </div>
                 <div class="card-content">
-                    <h3>QDPS</h3>
+                    <h3>QPDS</h3>
                     <p>Secure paper distribution system</p>
-                    <a href="#" class="card-link">
+                    <a href="qpds-login.html" class="card-link">
                         Enter
                         <i class="fas fa-arrow-right"></i>
                     </a>
@@ -457,75 +693,63 @@
     </div>
 
     <script>
-        // Navigation active state
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Card hover 3D effect
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateY = ((x - centerX) / centerX) * 2;
-                const rotateX = ((centerY - y) / centerY) * 2;
-                
-                card.style.transform = `translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(-10px) scale(1.02) rotateX(0) rotateY(0)';
-            });
-            
-            // Add click effect
-            card.addEventListener('click', () => {
-                card.style.transform = 'translateY(-5px) scale(0.98)';
-                setTimeout(() => {
-                    card.style.transform = 'translateY(-10px) scale(1.02)';
-                }, 150);
-            });
-        });
-
-        // Logo bounce on hover
-        const logo = document.querySelector('.logo');
-        logo.addEventListener('mouseenter', () => {
-            logo.style.animation = 'none';
-            setTimeout(() => {
-                logo.style.animation = 'logoFloat 3s ease-in-out infinite';
-            }, 10);
-        });
-
-        // Page load animation
+        // Your original JavaScript with small modifications
         document.addEventListener('DOMContentLoaded', () => {
-            // Fade in
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.6s ease';
-            
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-            
-            // Cards entrance
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 150 + 200);
+            // Navigation active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
+
+            // Card hover 3D effect
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateY = ((x - centerX) / centerX) * 2;
+                    const rotateX = ((centerY - y) / centerY) * 2;
+                    
+                    card.style.transform = `translateY(-10px) scale(1.02) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02) rotateX(0) rotateY(0)';
+                });
+                
+                // Add click effect
+                card.addEventListener('click', () => {
+                    card.style.transform = 'translateY(-5px) scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(-10px) scale(1.02)';
+                    }, 150);
+                });
+            });
+
+            // Logo bounce on hover
+            const logo = document.querySelector('.logo');
+            logo.addEventListener('mouseenter', () => {
+                logo.style.animation = 'none';
+                setTimeout(() => {
+                    logo.style.animation = 'logoFloat 3s ease-in-out infinite';
+                }, 10);
+            });
+
+            // Force remove intro screen after 3.5 seconds (just in case)
+            // Force remove intro screen after 2 seconds (just in case)
+            setTimeout(() => {
+                const introScreen = document.querySelector('.intro-screen');
+                if (introScreen) {
+                    introScreen.style.display = 'none';
+                }
+            }, 2000);
         });
     </script>
 </body>
